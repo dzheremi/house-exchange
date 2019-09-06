@@ -1,0 +1,18 @@
+<h1>Review User</h1>
+<h2><%= @user.first_name + ' ' + @user.last_name %></h2>
+<br/>
+<%= form_for @review, url: {action: 'user_save', id: @booking} do |review_form| %>
+    <%= review_form.label :rating, 'Star Rating:' %>
+    <div class="row">
+      <div class="col-md-2">
+        <%= review_form.select(:rating, [['Please select...', ''],['1', '1'], ['2', '2',], ['3','3'], ['4', '4'], ['5', '5',]], {}, {class: 'form-control'}) %>
+      </div>
+    </div><br/>
+    <%= review_form.label :comment, 'Comments:' %>
+    <div class="row">
+      <div class="col-md-12">
+        <%= review_form.text_area(:comment, class: 'form-control') %>
+      </div>
+    </div><br/>
+    <%= review_form.submit('Leave Review', class: 'btn btn-primary') %>
+<% end %>

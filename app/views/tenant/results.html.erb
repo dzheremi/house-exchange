@@ -1,0 +1,23 @@
+<h2>Tenants Looking in</h2>
+<h1><%= @property.suburb.titleize %></h1>
+<% unless @date.nil? %>
+    <h2>During <%= @date.at_beginning_of_week.to_date.to_formatted_s(:long) %> and <%= @date.at_end_of_week.to_date.to_formatted_s(:long) %></h2>
+<% end %>
+<hr/>
+<% @tenants.each do |t| %>
+    <div class="row">
+      <div class="col-md-9">
+        <h3><%= link_to (t.user.first_name.titleize + ' ' + t.user.last_name[0].titleize + '.'), {:action=>"view", :id=>t} %></h3>
+        <h4>is looking for a house in</h4>
+        <h3><%= t.suburb %></h3>
+        <% unless session[:current_user] == nil %>
+            <p>
+              from <span class="label label-success"><%= t.start.to_formatted_s(:long) %></span> to
+              <span class="label label-success"><%= t.end.to_formatted_s(:long) %></span>
+            </p>
+            <p>Maximum Daily Points: <b><%= t.maximum_daily_points %></b></p>
+        <% end %>
+      </div>
+    </div>
+    <hr/>
+<% end %>

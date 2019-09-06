@@ -1,0 +1,9 @@
+<h1>Buy More Points</h1>
+<p>Use this form to purchase more points, click the Purchase button to complete your transaction.</p>
+<%= form_tag(:action=>'process_transaction', :controller=>'point') do |buy_form| %>
+    <%= label_tag ('Number of Points:') %>
+    <div class="row">
+      <div class="col-md-5"><div class="form-inline form-group"><%= text_field_tag('points', nil, :class=>"form-control", :placeholder=>"Points") %></div></div>
+    </div><br/>
+    <%= submit_tag('Purchase', {class: "btn btn-success"}) %>
+<% end %>

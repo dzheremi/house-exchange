@@ -1,0 +1,35 @@
+<h1>New Booking</h1>
+<%= form_for @booking, url: {action: 'save', controller: 'booking', id: @listing} do |booking_form| %>
+    <%= hidden_field_tag('booking_from', 'listing') %>
+    <h2><%= @booking.listing.property.title %></h2>
+    <h3><%= @booking.listing.property.suburb + ' ' + @booking.listing.property.state %><br/>
+      <% if @error || @point_error %>
+          <% if @point_error %>
+              <br/>
+              <p style="color: #ff0000;">You do not have enough points to complete this request - please re-adjust your booking dates.</p>
+          <% end %>
+          <h3 style="color: #ff0000">You must book between:</h3>
+          <h4><%= @booking.listing.start.to_formatted_s(:long) %> and <%= @booking.listing.end.to_formatted_s(:long) %></h4>
+          <div row="row">
+            <div class="row">
+              <div class="col-md-12">
+                <p>Please select a new date range for your booking:</p>
+                <div class="form-inline form-group">
+                  <%= booking_form.date_select(:start, {:default=>@booking.start, :order=>[:day, :month, :year]}, {class: 'form-control'}) %> to
+                  <%= booking_form.date_select(:end, {:default=>@booking.end, :order=>[:day, :month, :year]}, {class: 'form-control'}) %>
+                </div>
+              </div>
+            </div>
+      <% else %>
+          <p><%= @booking.start.to_formatted_s(:long) %> to <%= @booking.end.to_formatted_s(:long) %></p>
+          <%= booking_form.hidden_field(:start, :value => @booking.start) %>
+          <%= booking_form.hidden_field(:end, :value => @booking.end) %>
+      <% end %>
+      <h3>Point Cost:</h3>
+      <h4><%= number_with_delimiter(@booking.calculate_cost) %> Points</h4>
+      <h3>Your Point Balance:</h3>
+      <h4><%= number_with_delimiter(@user.point_balance) %> Points</h4>
+      <br/>
+      <%= booking_form.submit('Confirm Booking', class: 'btn btn-primary') %>
+      <%= link_to('Back', {:action=>'view', :controller=>'listing', :id=>@booking.listing}, {class: 'btn btn-primary'}) %>
+<% end %>

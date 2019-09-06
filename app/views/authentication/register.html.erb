@@ -1,0 +1,38 @@
+<h1>Sign Up</h1>
+<%== show_errors(@user) %>
+<p>
+  Fill in the form below to create your HouseExchange account.<br/>
+  You will be issued with an initial credit of 500 points with your membership fee.
+</p>
+<%= form_for @user, url: {action: "create_user"} do |user_form| %>
+<%= user_form.label :email_address, "Email Address:" %>
+<div class="row">
+  <div class="col-md-6"><%= user_form.email_field :email_address, placeholder: "Email Address", class: "form-control" %></div>
+  <div class="col-md-6"><%= user_form.email_field :email_address_confirmation, placeholder: "Confirm Email Address", class: "form-control" %></div>
+</div><br/>
+<%= user_form.label :password, "Password:" %>
+<div class="row">
+  <div class="col-md-6"><%= user_form.password_field :password, placeholder: "Password", class: "form-control" %></div>
+  <div class="col-md-6"><%= user_form.password_field :password_confirmation, placeholder: "Confirm Password", class: "form-control" %></div>
+</div><br/>
+<%= user_form.label :first_name, "Name:" %>
+<div class="row">
+  <div class="col-md-6"><%= user_form.text_field :first_name, placeholder: "First Name", class: "form-control" %></div>
+  <div class="col-md-6"><%= user_form.text_field :last_name, placeholder: "Last Name", class: "form-control" %></div>
+</div><br/>
+<%= user_form.label :address_1, "Address:" %>
+<div class="row">
+  <div class="col-md-12"><%= user_form.text_field :address_1, placeholder: "Address Line 1", class: "form-control" %></div>
+</div><br/>
+<div class="row">
+  <div class="col-md-12"><%= user_form.text_field :address_2, placeholder: "Address Line 2", class: "form-control"%></div>
+</div><br/>
+<div class="row">
+  <div class="col-md-4"><%= user_form.text_field :suburb, placeholder: "Suburb", class: "form-control" %></div>
+  <div class="col-md-4"><%= user_form.select(:state, [['State', ''],['VIC', 'VIC'], ['NSW', 'NSW',], ['QLD','QLD'], ['SA', 'SA'], ['WA', 'WA',], ['NT', 'NT'], ['TAS', 'TAS']], {}, {class: "form-control"}) %></div>
+  <div class="col-md-4"><%= user_form.text_field :post_code, size: "10", placeholder: "Post Code", class: "form-control" %></div>
+</div><br/>
+<%= user_form.label :phone, "Phone Number:" %>
+  <%= user_form.telephone_field :phone, placeholder: "Phone Number", class: "form-control" %><br/>
+  <%= user_form.submit("Register", class: "btn btn-primary") %>
+<% end %>

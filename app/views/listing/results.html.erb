@@ -1,0 +1,31 @@
+<h2>Properties in</h2>
+<h1><%= params[:suburb].titleize %></h1>
+<% unless @date.nil? %>
+  <h2>During <%= @date.at_beginning_of_week.to_date.to_formatted_s(:long) %> and <%= @date.at_end_of_week.to_date.to_formatted_s(:long) %></h2>
+<% end %>
+<hr/>
+<% @listings.each do |l| %>
+  <% images = l.property.property_images.where(order: 0) %>
+    <div class="row">
+      <div class="col-md-9">
+        <h3><%= link_to l.property.title.titleize, {:action=>"view", :id=>l} %> (<%= l.property.average_rating %> Star)</h3>
+        <p><b><%= l.property.suburb %> <%= l.property.state %></b></p>
+        <% unless session[:current_user] == nil %>
+            <p>
+              Available from <span class="label label-success"><%= l.start.to_formatted_s(:long) %></span> to
+              <span class="label label-success"><%= l.end.to_formatted_s(:long) %></span>
+            </p>
+            <p>Daily Points: <b><%= l.daily_points %></b> - Minimum Rating: <b><%= l.minimum_rating %></b>
+        <% end %>
+        <p><%= l.property.description %></p>
+      </div>
+      <div class="col-md-3" style="padding-top: 50px;">
+        <% if images.empty? %>
+            <p style="text-align: center;">No Image Available</p>
+        <% else %>
+            <img src="/uploads/<%= images.first.file_name.split("/").last %>" width="200px"/>
+        <% end %>
+      </div>
+    </div>
+<hr/>
+<% end %>

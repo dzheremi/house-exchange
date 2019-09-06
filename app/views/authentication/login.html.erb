@@ -1,0 +1,10 @@
+<h1>Member Area</h1>
+<p>Please login using your e-mail address and password to continue.</p>
+<%= form_for @user, url: {action: "process_login"} do |login_form| %>
+<%= login_form.label :email_address, "Email Address:" %>
+<%= login_form.email_field :email_address, placeholder: "Email Address", class: "form-control" %><br/>
+<%= login_form.label :password, "Password:" %>
+<%= login_form.password_field :password, placeholder: "Password", class: "form-control" %><br/>
+<%= login_form.submit("Login", class: "btn btn-primary") %>
+<%= link_to "Sign Up Now", {:action=>"register"}, class: "btn btn-warning" %>
+<% end %>

@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  listing_id: 1 
+  start: 2015-09-29
+  end: 2015-09-29
+  owner_approved: false
+  owner_approved_at: nil
+  tenant_approved: false
+  tenant_approved_at: nil
+  owner_reviewed: nil
+  owner_reviewed_at: nil
+  tenant_reviewed: nil
+  tenant_reviewed_at: nil
+
+two:
+  user_id: 1
+  listing_id: 1
+  start: 2015-09-29
+  end: 2015-09-29
+  owner_approved: false
+  owner_approved_at: nil
+  tenant_approved: false
+  tenant_approved_at: nil
+  owner_reviewed: nil
+  owner_reviewed_at: nil
+  tenant_reviewed: nil
+  tenant_reviewed_at: nil

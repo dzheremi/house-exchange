@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  file_name: image1.jpg
+  order: 0
+  property: one
+
+two:
+  file_name: image2.jpg
+  order: 2
+  property: two

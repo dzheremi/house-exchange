@@ -1,0 +1,26 @@
+<h1>New Offer</h1>
+<%= form_for @booking, url: {action: "save", controller: "booking", id: @tenant} do |booking_form| %>
+  <%= hidden_field_tag("booking_from", "tenant") %>
+  <%= hidden_field_tag("listing_id", @booking.listing.id) %>
+  <h2>to <%= @tenant.user.first_name + ' ' + @tenant.user.last_name[0] %></h2>
+  <h3>staying at <%= @booking.listing.property.title %></h3>
+  <h2><%= @booking.listing.property.suburb + ' ' + @booking.listing.property.state %></h2>
+  <p>from <%= @booking.start.to_formatted_s(:long) %> to <%= @booking.end.to_formatted_s(:long) %></p>
+  <% if @range_warning %>
+    <p style="color: #ff0000;">This range does not match your original listing - are you sure this is okay?</p>
+  <% end %>
+  <%= booking_form.hidden_field(:start, :value => @booking.start) %>
+  <%= booking_form.hidden_field(:end, :value => @booking.end) %>
+  <h3>User Rating:</h3>
+  <h4><%= @tenant.user.average_rating %></h4>
+  <% if @rating_warning %>
+    <p style="color: #ff0000;">This user's rating is lower than the minimum you set on your listing - are you sure this is okay?</p>
+  <% end %>
+  <h3>Point Profit:</h3>
+  <h4><%= number_with_delimiter(@booking.calculate_cost) %> Points</h4>
+  <% if @point_warning %>
+    <p style="color: #ff0000;">This is less that you originally listed your property as - are you sure this is okay?</p>
+  <% end %>
+  <br/>
+  <%= booking_form.submit("Confirm Offer", class: "btn btn-primary") %>
+<% end %>

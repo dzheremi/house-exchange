@@ -1,0 +1,159 @@
+<h1>Your House Bookings</h1>
+<p>Below is a list of all the bookings that have been made for your houses.</p>
+<br/>
+<table class="table table-striped">
+  <tr>
+    <th>Tenant</th>
+    <th>House</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Points</th>
+    <th>Status</th>
+    <th></th>
+  </tr>
+  <% @listing_bookings.each do |lb| %>
+    <tr>
+      <td><%= lb.user.first_name + ' ' + lb.user.last_name %> (Rating: <%= lb.user.average_rating %>)
+        <% if lb.get_status == 'approved' %>
+            <br/>
+            <%== lb.user.phone + '<br/>' + lb.user.email_address %>
+        <% end %>
+      </td>
+      <td><%= link_to lb.listing.property.title, {:action=>'view', :controller=>'listing', :id=>lb.listing} %></td>
+      <td><%= lb.start.to_formatted_s(:long) %></td>
+      <td><%= lb.end.to_formatted_s(:long) %></td>
+      <td>+<%= number_with_delimiter(lb.calculate_cost) %></td>
+      <td><%== lb.get_html_status %></td>
+      <td style="text-align: right;">
+        <%= link_to 'Accept', {:action=>'owner_accept', :id=>lb}, {:class=>'btn btn-success'} if lb.get_status == 'pending' %>
+        <%= link_to 'Decline', {:action=>'owner_decline', :id=>lb}, {:class=>'btn btn-danger'} if lb.get_status == 'pending' %>
+        <%= link_to 'Review', {:action=>'user', :controller=>'review', :id=>lb}, {:class=>'btn btn-primary'} if lb.get_status == 'approved' && !lb.owner_reviewed %>
+      </td>
+    </tr>
+  <% end %>
+  <% if @listing_bookings.empty? %>
+    <tr>
+      <td colspan="6">You currently have not bookings on any of your houses.</td>
+    </tr>
+  <% end %>
+</table><br/>
+<hr/>
+<h1>Offers You've Made</h1>
+<p>Below is a list of all offers that you have made to tenants.</p>
+<br/>
+<table class="table table-striped">
+  <tr>
+    <th>Tenant</th>
+    <th>House</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Points</th>
+    <th>Status</th>
+    <th></th>
+  </tr>
+  <% @offer_bookings.each do |ob| %>
+      <tr>
+        <td><%= ob.tenant.user.first_name + ' ' + ob.tenant.user.last_name %> (Rating: <%= ob.tenant.user.average_rating %>)
+          <% if ob.get_status == 'approved' %>
+              <br/>
+              <%== ob.tenant.user.phone + '<br/>' + ob.tenant.user.email_address %>
+          <% end %>
+        </td>
+        <td><%= link_to ob.listing.property.title, {:action=>'view', :controller=>'listing', :id=>ob.listing} %></td>
+        <td><%= ob.start.to_formatted_s(:long) %></td>
+        <td><%= ob.end.to_formatted_s(:long) %></td>
+        <td>+<%= number_with_delimiter(ob.calculate_cost) %>
+        <td><%== ob.get_html_status %></td>
+        <td style="text-align: right;">
+          <%= link_to 'Review', {:action=>'user', :controller=>'review', :id=>ob}, {:class=>'btn btn-primary'} if ob.get_status == 'approved' %>
+        </td>
+      </tr>
+  <% end %>
+  <% if @offer_bookings.empty? %>
+      <tr>
+        <td colspan="6">You currently have made no offers to any tenants.</td>
+      </tr>
+  <% end %>
+</table><br/>
+<hr/>
+<h1>Offers To Stay</h1>
+<p>Below is a list of all offers that have been made to you.</p>
+<br/>
+<table class="table table-striped">
+  <tr>
+    <th>Owner</th>
+    <th>House</th>
+    <th>Suburb</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Points</th>
+    <th>Status</th>
+    <th></th>
+  </tr>
+  <% @tenant_bookings.each do |tb| %>
+    <tr>
+      <td><%= tb.user.first_name + ' ' + tb.user.last_name %>
+        <% if tb.get_status == 'approved' %>
+            <br/>
+            <%== tb.listing.property.address_1 + '<br/>' + tb.listing.property.suburb + ' ' + tb.listing.property.state %>
+        <% end %>
+      </td>
+      <td><%= link_to tb.listing.property.title, {:action=>'view', :controller=>'listing', :id=>tb.listing} %> (<%= tb.listing.property.average_rating %> Star)</td>
+      <td><%= tb.listing.property.suburb %></td>
+      <td><%= tb.start.to_formatted_s(:long) %></td>
+      <td><%= tb.end.to_formatted_s(:long) %></td>
+      <td>-<%= number_with_delimiter(tb.calculate_cost) %></td>
+      <td><%== tb.get_html_status %></td>
+      <td style="text-align: right;">
+        <%= link_to 'Accept', {:action=>'tenant_accept', :id=>tb}, {:class=>'btn btn-success'} if tb.get_status == 'pending' %>
+        <%= link_to 'Decline', {:action=>'tenant_decline', :id=>tb}, {:class=>'btn btn-danger'} if tb.get_status == 'pending' %>
+        <%= link_to 'Review', {:action=>'property', :controller=>'review', :id=>tb}, {:class=>'btn btn-primary'} if tb.get_status == 'approved' && !tb.tenant_reviewed %>
+      </td>
+    </tr>
+  <% end %>
+  <% if @tenant_bookings.empty? %>
+    <tr>
+      <td colspan="8">You currently have no offers to stay.</td>
+    </tr>
+  <% end %>
+</table><br/>
+<hr/>
+<h1>Bookings You've Made</h1>
+<p>Below is a list of all the bookings that you have made.</p>
+<br/>
+<table class="table table-striped">
+  <tr>
+    <th>Owner</th>
+    <th>House</th>
+    <th>Suburb</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Points</th>
+    <th>Status</th>
+    <th></th>
+  </tr>
+  <% @your_bookings.each do |yb| %>
+    <tr>
+      <td><%= yb.listing.user.first_name + ' ' + yb.listing.user.last_name %>
+        <% if yb.get_status == 'approved' %>
+            <br/>
+            <%== yb.listing.property.address_1 + '<br/>' + yb.listing.property.suburb + ' ' + yb.listing.property.state %>
+        <% end %>
+      </td>
+      <td><%= link_to yb.listing.property.title, {:action=>'view', :controller=>'listing', :id=>yb.listing} %> (<%= yb.listing.property.average_rating %> Star)</td>
+      <td><%= yb.listing.property.suburb %></td>
+      <td><%= yb.start.to_formatted_s(:long) %></td>
+      <td><%= yb.end.to_formatted_s(:long) %></td>
+      <td>-<%= number_with_delimiter(yb.calculate_cost) %></td>
+      <td><%== yb.get_html_status %></td>
+      <td style="text-align: right;">
+        <%= link_to 'Review', {:action=>'property', :controller=>'review', :id=>yb}, {:class=>'btn btn-primary'} if yb.get_status == 'approved' && !yb.tenant_reviewed %>
+      </td>
+    </tr>
+  <% end %>
+  <% if @your_bookings.empty? %>
+    <tr>
+      <td colspan="7">You have not made any bookings yet.</td>
+    </tr>
+  <% end %>
+</table><br/>

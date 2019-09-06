@@ -1,0 +1,37 @@
+<h1>Search For a Home</h1>
+<%= form_tag(:action=>'results', :controller=>'listing') do |search_form| %>
+  <%= label_tag ('Suburb:') %>
+  <div class="row">
+    <div class="col-md-5"><div class="form-inline form-group"><%= text_field_tag('suburb', nil, :class=>"form-control", :placeholder=>"Suburb") %></div></div>
+  </div>
+  <% unless @user.nil? %>
+    <div class="row">
+      <div class="col-md-9"><div class="form-inline form-group"><p>Enter one day within the week you wish to book a house in.</p></div></div>
+    </div>
+    <%= label_tag ('Week:') %>
+    <div class="row">
+      <div class="col-md-5"><div class="form-inline form-group"><%= select_date(Date.today, {:order=>[:day, :month, :year]}, {:class=>"form-control"}) %></div></div>
+    </div><br/>
+<% end %>
+  <%= submit_tag('Search', {class: "btn btn-primary"}) %>
+<% end %>
+<% unless @user.nil? %>
+    <% unless @user.listings.size == 0 %>
+        <hr/>
+        <h1>Search For a Tenant</h1>
+        <%= form_tag(:action=>'results', :controller=>'tenant') do |search_form| %>
+            <%= label_tag ('For:') %>
+            <div class="row">
+              <div class="col-md-5"><div class="form-inline form-group"><%= select_tag('property_id', options_for_select(@properties.collect {|p| [p.title + ' - ' + p.suburb + ' ' + p.state, p.id]}), {class: "form-control"}) %></div></div>
+            </div>
+            <div class="row">
+              <div class="col-md-9"><div class="form-inline form-group"><p>Enter one day within the week that you wish to offer your property in.</p></div></div>
+            </div>
+            <%= label_tag ('Week:') %>
+            <div class="row">
+              <div class="col-md-5"><div class="form-inline form-group"><%= select_date(Date.today, {:order=>[:day, :month, :year]}, {:class=>"form-control"}) %></div></div>
+            </div><br/>
+            <%= submit_tag('Search', {class: "btn btn-primary"}) %>
+        <% end %>
+    <% end %>
+<% end %>

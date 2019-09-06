@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HouseExchange - The Grass is Always Greener!</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'bootstrap.min' %>
+  <%= csrf_meta_tags %>
+</head>
+
+<body>
+<div class="container">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/"><%= image_tag('logo.png', class: 'img-responsive', width: '250') %></a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to 'Home', {:action=>'list_featured', :controller=>'listing'} %></li>
+          <li><%= link_to 'Houses', {:action=>'list', :controller=>'listing'} %></li>
+          <li><%= link_to 'Tenants', {:action=>'list', :controller=>'tenant'} %></li>
+          <li><%= link_to 'Search', {:action=>'search', :controller=>'listing'} %></li>
+          <% if show_logged_in_features %>
+              <li><%= link_to 'Points (' + User.find(session[:current_user]).point_balance.to_s + ')', {:action=>'list', :controller=>'point'} %></li>
+              <li><%= link_to 'Bookings', {:action=>'list', :controller=>'booking'} %></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Listings<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to 'Request a House', {:action=> 'new', :controller=> 'tenant'} %></li>
+                  <li><%= link_to 'Existing House Requests', {:action=> 'user_tenants', :controller=> 'tenant'} %></li>
+                  <li><%= link_to 'Add a Listing for your House', {:action=> 'new', :controller=> 'listing'} %></li>
+                  <li><%= link_to 'Existing House Listings', {:action=> 'user_listings', :controller=> 'listing'} %></li>
+                  <li><%= link_to 'Manage Your House Details', {:action=> 'list', :controller=> 'property'} %></li>
+                </ul>
+              </li>
+          <% end %>
+          <li><%= show_login %></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+
+<% flash.each do |name, msg| %>
+    <br/>
+    <div class="container">
+      <div class="alert alert-<%= "danger" if name == "error" %><%= "success" unless name == "error" %>" role="alert">
+        <strong><%= name.titleize %></strong> <%= msg %>
+      </div>
+    </div>
+<% end %>
+
+<div class="container">
+  <div class="jumbotron">
+    <%= yield %>
+  </div>
+</div>
+
+<div class="container">
+  &copy; 2015 - J. Mercer
+</div>
+
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/bootstrap.min.js"></script>
+
+</body>
+</html>

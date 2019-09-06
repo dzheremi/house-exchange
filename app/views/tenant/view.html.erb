@@ -1,0 +1,91 @@
+<h1><%= @tenant.user.first_name.titleize + ' ' + @tenant.user.last_name[0].titleize %></h1>
+<div class="row">
+  <div class="col-md-12">
+    <h4>is looking for a house in</h4>
+    <h2><%= @tenant.suburb.titleize %></h2>
+    <p>
+      from <span class="label label-success"><%= @tenant.start.to_formatted_s(:long) %></span> and
+      <span class="label label-success"><%= @tenant.end.to_formatted_s(:long) %></span>
+    </p>
+    <h4>Maximum Daily Points:</h4>
+    <p><%= @tenant.maximum_daily_points %></p>
+    <h4>User Rating:</h4>
+    <p><%= @tenant.user.average_rating %> Star</p>
+    <% unless @user.nil? %>
+        <h4>Reviews</h4>
+        <ul>
+          <% @tenant.user.user_reviews.each do |r| %>
+              <li><p><b><%= r.rating %> Star:</b> <%= r.comment %> (<%= r.author.first_name %> - <%= r.created_at.to_formatted_s(:short) %>)</p></li>
+          <% end %>
+        </ul>
+        <br/><br/>
+      <% unless @user == @tenant.user %>
+        <div style="text-align: center;">
+          <a data-toggle="modal" data-target="#booking" class="btn btn-lg btn-primary">Offer Your House</a>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<% unless @user.nil? %>
+  <% unless @user == @tenant.user %>
+  <!-- Booking Modal -->
+  <div id="booking" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">
+            <b>Offer Your House</b><br/>
+            <%= @tenant.user.first_name.titleize + ' ' + @tenant.user.last_name[0].titleize %> 
+          </h4>
+        </div>
+        <div class="modal-body">
+          <% if @user.listings.size == 0 %>
+              <p style="color: #ff0000;">You do not have any properties listed to offer to this tenant.</p>
+              <p>You can add a listing from the Bookings menu.</p>
+          <% else %>
+              <p>Please indicate the listing you wish to offer to <%= @tenant.user.first_name %>.</p>
+              <%= form_for @booking, url: {action: "new_from_tenant", controller: "booking", id: @tenant.id} do |booking_form| %>
+                  <%= booking_form.label :property, "Listing:" %>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-inline form-group">
+                        <%= booking_form.select(:listing_id, @listings.collect {|p| [p.property.title, p.id]}, {}, {class: "form-control"}) %>
+                      </div>
+                    </div>
+                  </div><br/>
+                  <%= booking_form.label :start, "Start Date:" %>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-inline form-group">
+                        <%= @tenant.start.to_formatted_s(:long) %>
+                        <%= booking_form.hidden_field(:start, :value=>@tenant.start) %>
+                      </div>
+                    </div>
+                  </div><br/>
+                  <%= booking_form.label :end, "End Date:" %>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-inline form-group">
+                        <%= @tenant.end.to_formatted_s(:long) %>
+                        <%= booking_form.hidden_field(:end, :value=>@tenant.end) %>
+                      </div>
+                    </div>
+                  </div><br/>
+                  <%= booking_form.submit("Make Offer", class: "btn btn-primary") %>
+              <% end %>
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+  <% end %>
+<% end %>
+
+  </div>
+</div>

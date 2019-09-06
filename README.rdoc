@@ -1,0 +1,15 @@
+== README
+
+Model files have been created:
+
+* User
+* Property
+* PropertyFeature
+* PropertyImage
+* Listing
+
+View files have been created for registration and login, see ./app/views/authentication/ - login.html.erb and register.html.erb.
+
+When referencing a new controller function, please add it to the routes config file, unless it is not called directly by a user.
+
+If you're getting any weird errors, run "service apache2 restart" as root - this fixes the node.js problems.

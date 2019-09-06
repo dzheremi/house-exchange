@@ -1,0 +1,31 @@
+<h1>Your Houses</h1>
+<p>All of your houses are listed in the table below, you can modify or remove them at any time.</p>
+<br/>
+<table class="table table-striped">
+  <tr>
+    <th>Title</th>
+    <th>Address</th>
+    <th>Suburb</th>
+    <th></th>
+  </tr>
+  <% @properties.each do |p| %>
+    <tr>
+      <td><%= p.title %></td>
+      <td>
+        <%= p.address_1 %>
+        <%== '<br/>' + p.address_2 unless p.address_2.empty? %>
+      </td>
+      <td><%= p.suburb %></td>
+      <td style="text-align: right;">
+        <%= link_to "Edit", {:action=>"edit", :controller=>"property", :id=>p}, class: "btn btn-primary" %>
+        <%= link_to "Delete", {:action=>"delete", :controller=>"property", :id=>p}, class: "btn btn-danger" %>
+      </td>
+    </tr>
+  <% end %>
+  <% if @properties.empty? %>
+    <tr>
+      <td colspan="3">You have no houses, click the button below to add one.</td>
+    </tr>
+  <% end %>
+</table><br/>
+<%= link_to "Add a New House", {:action=>"new", :controller=>"property"}, class: "btn btn-primary" %>

@@ -1,0 +1,34 @@
+<h1>Houses</h1>
+<hr/>
+<% @listings.each do |l| %>
+  <% images = l.property.property_images.where(order: 0) %>
+  <div class="row">
+    <div class="col-md-9">
+      <h3><%= link_to l.property.title.titleize, {:action=>"view", :id=>l} %> (<%= l.property.average_rating %> Star)</h3>
+      <p><b><%= l.property.suburb %> <%= l.property.state %></b></p>
+      <% unless session[:current_user] == nil %>
+          <% if l.get_status %>
+              <p>
+                Available from <span class="label label-success"><%= l.start.to_formatted_s(:long) %></span> to
+                <span class="label label-success"><%= l.end.to_formatted_s(:long) %></span>
+              </p>
+          <% else %>
+              <p>
+                Booked from <span class="label label-danger"><%= l.start.to_formatted_s(:long) %></span> to
+                <span class="label label-danger"><%= l.end.to_formatted_s(:long) %></span>
+              </p>
+          <% end %>
+        <p>Daily Points: <b><%= l.daily_points %></b> - Minimum Rating: <b><%= l.minimum_rating %></b>
+      <% end %>
+      <p><%= l.property.description %></p>
+    </div>
+    <div class="col-md-3" style="padding-top: 50px;">
+      <% if images.empty? %>
+        <p style="text-align: center;">No Image Available</p>
+      <% else %>
+        <img src="/uploads/<%= images.first.file_name.split("/").last %>" width="200px"/>
+      <% end %>
+    </div>
+  </div>
+<hr/>
+<% end %>

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: A Humble Aboad
+  address_1: Unit 1
+  address_2: 16 Wallaby Way
+  suburb: Pheasant Creek
+  state: Victoria
+  post_code: 3757
+  description: In the middle of no-where. Good if you like big parmas and a quiet holiday.
+  user: one
+
+two:
+  title: 5 Star Living
+  address_1: 1 Hampton Street
+  address_2: 
+  suburb: Hampton
+  state: Victoria
+  post_code: 3188
+  description: If you like a rich neighbourhood with a lot of X5 drivers and house mums, this is the place for you!
+  user: two

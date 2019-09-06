@@ -1,0 +1,30 @@
+<h1>Add New House</h1>
+<%== show_errors(@property) %>
+<p>Please enter all the details of your house in the form below.</p>
+<%= form_for @property, url: {action: "save"}, html: {multipart: true} do |property_form| %>
+  <%= property_form.label :title, "Title:" %>
+  <div class="row">
+    <div class="col-md-12"><%= property_form.text_field :title, placeholder: "Title", class: "form-control" %></div>
+  </div><br/>
+  <%= property_form.label :address_1, "Address:" %>
+  <div class="row">
+    <div class="col-md-12"><%= property_form.text_field :address_1, placeholder: "Address Line 1", class: "form-control" %></div>
+  </div><br/>
+  <div class="row">
+    <div class="col-md-12"><%= property_form.text_field :address_2, placeholder: "Address Line 2", class: "form-control" %></div>
+  </div><br/>
+  <div class="row">
+    <div class="col-md-4"><%= property_form.text_field :suburb, placeholder: "Suburb", class: "form-control" %></div>
+    <div class="col-md-4"><%= property_form.select(:state, [['State', ''],['VIC', 'VIC'], ['NSW', 'NSW',], ['QLD','QLD'], ['SA', 'SA'], ['WA', 'WA',], ['NT', 'NT'], ['TAS', 'TAS']], {}, {class: "form-control"}) %></div>
+    <div class="col-md-4"><%= property_form.text_field :post_code, size: "10", placeholder: "Post Code", class: "form-control" %></div>
+  </div><br/>
+  <%= property_form.label :description, "Description:" %>
+  <div class="row">
+    <div class="col-md-12"><%= property_form.text_area(:description, class: "form-control") %></div>
+  </div><br/>
+  <%= label_tag "image", "Picture:" %>
+  <div class="row">
+    <div class="col-md-12"><%= file_field_tag "image", class: "form-control" %></div>
+  </div><br/>
+  <%= property_form.submit("Add House", class: "btn btn-primary") %>
+<% end %>

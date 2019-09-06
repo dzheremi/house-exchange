@@ -1,0 +1,21 @@
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+  height: 90px;
+}
+
+.navbar-nav {
+  padding-top: 30px;
+}
+
+.active a {
+  border-radius: 10px;
+}
+
+.dropdown a {
+  border-radius: 10px;
+}

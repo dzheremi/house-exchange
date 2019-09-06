@@ -1,0 +1,33 @@
+<h1>Add New Listing for Your House</h1>
+<%== show_errors(@listing) %>
+<p>Please enter all the details of your listing in the form below.</p>
+<%= form_for @listing, url: {action: "save"} do |listing_form| %>
+  <br/>
+  <%= listing_form.label :active, "Show Online:" %>
+  <%= listing_form.check_box :active, checked: true %><br/><br/>
+  <%= listing_form.label :property, "House:" %>
+  <div class="row">
+    <div class="col-md-5"><%= listing_form.select(:property_id, @properties.collect {|p| [p.title, p.id]}, {}, {class: "form-control"}) %></div>
+  </div><br/>
+  <%= listing_form.label :start, "Start Date:" %>
+  <div class="row">
+    <div class="col-md-3"><div class="form-inline form-group"><%= listing_form.date_select(:start, {:order=>[:day, :month, :year]}, {class: "form-control"}) %></div></div>
+  </div><br/>
+  <%= listing_form.label :end, "End Date:" %>
+  <div class="row">
+    <div class="col-md-3"><div class="form-inline form-group"><%= listing_form.date_select(:end, {:order=>[:day, :month, :year]}, {class: "form-control"}) %></div></div>
+  </div><br/>
+  <%= listing_form.label :daily_points, "Daily Credits:" %>
+  <div class="row">
+    <div class="col-md-3"><%= listing_form.text_field :daily_points, placeholder: "Daily Credits", class: "form-control" %></div>
+  </div><br/>
+  <%= listing_form.label :minimum_rating, "Minimum User Rating:" %>
+  <div class="row">
+    <div class="col-md-3"><%= listing_form.text_field :minimum_rating, placeholder: "Minimum Rating", class: "form-control" %></div>
+  </div><br/>
+  <%= listing_form.label :notes, "Listing Notes:" %>
+  <div class="row">
+    <div class="col-md-12"><%= listing_form.text_area(:notes, class: "form-control") %></div>
+  </div><br/>
+  <%= listing_form.submit("Save Listing", class: "btn btn-primary") %>
+<% end %>

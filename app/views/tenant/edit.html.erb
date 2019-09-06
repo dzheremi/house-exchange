@@ -1,0 +1,27 @@
+<h1>Edit Your Request</h1>
+<%== show_errors(@tenant) %>
+<p>Please use the form below to edit the details of your listing.</p>
+<%= form_for @tenant, url: {action: "update"} do |tenant_form| %>
+  <br/>
+  <%= tenant_form.label :active, "Show Online:" %>
+  <%= tenant_form.check_box :active, checked: true %><br/><br/>
+  <%= tenant_form.label :start, "Start Date:" %>
+  <div class="row">
+    <div class="col-md-3"><div class="form-inline form-group"><%= tenant_form.date_select(:start, {:order=>[:day, :month, :year]}, {class: "form-control"}) %></div></div>
+  </div><br/>
+  <%= tenant_form.label :end, "End Date:" %>
+  <div class="row">
+    <div class="col-md-3"><div class="form-inline form-group"><%= tenant_form.date_select(:end, {:order=>[:day, :month, :year]}, {class: "form-control"}) %></div></div>
+  </div><br/>
+  <%= tenant_form.label :maximum_daily_points, "Maximum Daily Credits:" %>
+  <div class="row">
+    <div class="col-md-3"><%= tenant_form.text_field :maximum_daily_points, placeholder: "Maximum Daily Credits", class: "form-control" %></div>
+  </div><br/>
+  <%= tenant_form.label :suburb, "Desired Suburb:" %>
+  <div class="row">
+    <div class="col-md-3"><%= tenant_form.text_field :suburb, placeholder: "Suburb", class: "form-control" %></div>
+  </div><br/>
+  <%= tenant_form.submit("Save Changes", class: "btn btn-primary") %>
+  <%= link_to "Back", {:action=>"user_tenants", :controller=>"tenant"}, class: "btn btn-warning" %>
+<% end %>
+

@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  email_address: user1@example.com
+  password: user1
+  first_name: Test
+  last_name: User 1
+  address_1: Unit 1
+  address_2: 123 Test Street
+  suburb: Testville
+  state: VIC
+  post_code: 3000
+  phone: 1234567890
+
+two:
+  email_address: user2@example.com
+  password: user2
+  first_name: Test
+  last_name: User 2
+  address_1: Unit 3
+  address_2: 321 Fake Street
+  suburb: Testonia
+  state: NSW
+  post_code: 2000
+  phone: 0987654321

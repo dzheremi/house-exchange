@@ -1,0 +1,103 @@
+<h1><%= @listing.property.title.titleize %></h1>
+<% unless @images.empty? %>
+<div class="row">
+  <div class="col-md-12" style="text-align: center;">
+    <img src="/uploads/<%= @images.first.file_name.split("/").last %>" width="400px"/>
+  </div>
+</div>
+<% end %>
+<div class="row">
+  <div class="col-md-12">
+    <h3><% @listing.property.title.titleize %></h3>
+    <h2><b><%= @listing.property.suburb + ' ' + @listing.property.state %></b></h2>
+    <% unless session[:current_user] == nil %>
+        <% if @listing.get_status %>
+            <p>
+              Available from <span class="label label-success"><%= @listing.start.to_formatted_s(:long) %></span> to
+              <span class="label label-success"><%= @listing.end.to_formatted_s(:long) %></span>
+            </p>
+        <% else %>
+            <p>
+              Booked from <span class="label label-danger"><%= @listing.start.to_formatted_s(:long) %></span> to
+              <span class="label label-danger"><%= @listing.end.to_formatted_s(:long) %></span>
+            </p>
+        <% end %>
+    <% end %>
+    <p><%= @listing.property.description %></p>
+    <h4>Listing Notes:</h4>
+    <p><%= @listing.notes %>
+    <h4>Average Property Rating:</h4>
+    <p><%= @listing.property.average_rating %> Star</p>
+    <h4>Daily Points:</h4>
+    <p><%= @listing.daily_points %></p>
+    <h4>Minimum Rating to Book:</h4>
+    <p><%= @listing.minimum_rating %>
+       <% unless @user.nil? %>(Your rating is <%= @user.average_rating %>)<% end %>
+    </p>
+    <% unless @user.nil? %>
+        <h4>Reviews</h4>
+        <ul>
+        <% @listing.property.property_reviews.each do |r| %>
+            <li><p><b><%= r.rating %> Star:</b> <%= r.comment %> (<%= r.user.first_name %> - <%= r.created_at.to_formatted_s(:short) %>)</p></li>
+        <% end %>
+        </ul>
+        <br/><br/>
+        <% if @listing.get_status %>
+            <% unless @user.average_rating < @listing.minimum_rating || @listing.property.user == @user %>
+                <div style="text-align: center;">
+                  <a data-toggle="modal" data-target="#booking" class="btn btn-lg btn-primary">Book This Property</a>
+                </div>
+            <% end %>
+        <% end %>
+    <% end %>
+  </div>
+</div>
+
+<% if @listing.get_status %>
+    <% unless @user.nil? %>
+        <% unless @user.average_rating < @listing.minimum_rating || @listing.property.user == @user %>
+            <!-- Booking Modal -->
+            <div id="booking" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                      <b>New Booking</b><br/>
+                      <%= @listing.property.title %> -
+                      <%= @listing.property.suburb + ' ' + @listing.property.state %>
+                    </h4>
+                  </div>
+                  <div class="modal-body">
+                    <p>Please indicate the dates you wish to book this property for.</p>
+                    <%= form_for @booking, url: {action: "new_from_listing", controller: "booking", id: @listing.id} do |booking_form| %>
+                        <%= booking_form.label :start, "Start Date:" %>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-inline form-group">
+                              <%= booking_form.date_select(:start, {:default=>@listing.start, :order=>[:day, :month, :year]}, {class: "form-control"}) %>
+                            </div>
+                          </div>
+                        </div><br/>
+                        <%= booking_form.label :end, "End Date:" %>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-inline form-group">
+                              <%= booking_form.date_select(:end, {:default=>@listing.end, :order=>[:day, :month, :year]}, {class: "form-control"}) %>
+                            </div>
+                          </div>
+                        </div><br/>
+                        <%= booking_form.submit("Book Now", class: "btn btn-primary") %>
+                    <% end %>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+        <% end %>
+    <% end %>
+<% end %>
+  </div>
+</div>
